@@ -9,15 +9,17 @@ telepot.api._pools = {
 
 class Mailer:
     def __init__(self):
+        self.key = ##"362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc"
         pass
 
     def send(self,text):
-        self.bot = telepot.Bot("362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc")
+        key = 
+        self.bot = telepot.Bot(self.key)
         self.bot.sendMessage(238370268,text)
 
     def get_current_message(self):
         try:
-            self.bot = telepot.Bot("362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc")
+            self.bot = telepot.Bot(self.key)
             updates = self.bot.getUpdates()
             if len(updates) == 0:
                 return ""
