@@ -9,11 +9,10 @@ telepot.api._pools = {
 
 class Mailer:
     def __init__(self):
-        self.key = ##"362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc"
+        self.key = "362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc"
         pass
 
     def send(self,text):
-        key = 
         self.bot = telepot.Bot(self.key)
         self.bot.sendMessage(238370268,text)
 

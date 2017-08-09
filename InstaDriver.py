@@ -55,14 +55,14 @@ class Driver(object):
         self.local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
         self.following_xpath = "//*[contains(@class, '_s53mj')]"
         self.following_link = "https://www.instagram.com/snrmtths/following/"
-        self.follow_xpath = "//*[contains(@class, '_ah57t _84y62 _i46jh _rmr7s')]"
-        self.unfollow_xpath = "//*[contains(@class, '_ah57t _6y2ah _frcv2 _rmr7s')]"
-        self.comment_xpath = "//*[contains(@class, '_2hc0g')]"
+        self.follow_xpath = "//*[contains(@class, '_qv64e _gexxb _4tgw8 _njrw0')]"
+        self.unfollow_xpath = "//*[contains(@class, '_qv64e _t78yp _r9b8f _njrw0')]"
+        self.comment_xpath = "//*[contains(@class, '_bilrf')]"
         self.error_xpath = "//*[contains(@class, 'error-container -cx-PRIVATE-ErrorPage__errorContainer')]"
-        self.author_xpath = "//*[contains(@class, '_4zhc5 notranslate _24641')]"
-        self.next_button_xpath = "//*[contains(@class, '_de018 coreSpriteRightPaginationArrow')]"
-        self.like_button_xpath = "//*[contains(@class, '_soakw coreSpriteHeartOpen')]"
-        self.like_button_full_xpath = "//*[contains(@class, '_soakw coreSpriteHeartFull')]"
+        self.author_xpath = "//*[contains(@class, '_2g7d5 notranslate _iadoq')]"
+        self.next_button_xpath = "//*[contains(@class, '_3a693 coreSpriteRightPaginationArrow')]"
+        self.like_button_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartOpen')]"
+        self.like_button_full_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartFull')]"
         self.username = input("Username?")
         self.password = input("Password?")
         os.system('clear')
