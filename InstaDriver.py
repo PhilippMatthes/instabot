@@ -58,7 +58,7 @@ class Driver(object):
         # they define, where elements are located on Instagram. Sometimes,
         # classes are Changed (eg. "coreSpriteHeartOpen" to "coreSpriteLikeHeartOpen")
         # this results in vast amount of errors and needs to be corrected.
-        self.first_ele_class = "_ovg3g"
+        self.first_ele_class = "_si7dy"
         self.sections_xpath = "//*[contains(@class, '_6jvgy')]"
         self.local_name_xpath = ".//a[@class='_4zhc5 notranslate _j7lfh']"
         self.local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
@@ -74,8 +74,8 @@ class Driver(object):
         self.like_button_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartOpen')]"
         self.like_button_full_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartFull')]"
 
-        self.username = input("Username?")
-        self.password = input("Password?")
+        self.username = input("Username: ")
+        self.password = input("Password: ")
 
         # Clearing the command line
         os.system('clear')
