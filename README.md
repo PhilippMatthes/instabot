@@ -8,7 +8,7 @@ You must use your own Telegram bot. It is used to control the instagram bot, in 
 
 ### Installing
 
-Clone the git repository. 
+Clone the git repository.
 ```
 git clone https://github.com/PhilippMatthes/instabot.git
 ```
@@ -18,21 +18,10 @@ Install the needed packages.
 python3 -m pip install selenium
 python3 -m pip install urllib3
 python3 -m pip install telepot
+npm install chromedriver
 ```
 
-Create a file in which the users you followed are stored. This will be refactored soon!
-```
-cd instabot
-python3
-import pickle
-with open("followed_users_all_time.txt","wb") as f:
-... pickle.dump([],f)
-with open("followed_users.txt","rb") as f:
-... pickle.dump([],f)
-```
-
-Then go into the "Mailer.py" File and insert your Telegram Bot Token into the self.key field. This will redirect the Mailer to your Telegram bot.
-To modify the topics which are scraped by the bot, 
+To modify the topics which are scraped by the bot, change them in the Config.py File!
 
 ## Running the Bot
 

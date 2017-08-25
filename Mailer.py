@@ -1,16 +1,24 @@
 import telepot
 import telepot.api
 import urllib3
-
+import pickle
 
 telepot.api._pools = {
-    'default': urllib3.PoolManager(num_pools=3, maxsize=10, retries=5, timeout=120),
+    'default': urllib3.PoolManager(num_pools=3, maxsize=10, retries=10, timeout=240),
 }
 
 class Mailer:
     def __init__(self):
-        self.key = "362753338:AAFXRClQnkiEBFqVXta245w_aMgqNtADUSc"
-        pass
+        try:
+            with open("log/telepot_api_key.pickle","rb") as f:
+                self.key = pickle.load(f)
+        except:
+            key = input("Telepot api key was not discovered. Please enter your Key: ")
+            while len(key) != 45:
+                key = input("The key you entered is no valid Telegram API key. Please try again: ")
+            with open("log/telepot_api_key.pickle","wb") as f:
+                pickle.dump(key,f)
+            self.key = key
 
     def send(self,text):
         self.bot = telepot.Bot(self.key)
