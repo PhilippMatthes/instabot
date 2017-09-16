@@ -12,28 +12,20 @@ import os
 from Mailer import Mailer
 from Config import Config
 
+if Config.headless_is_available:
+    from xvfbwrapper import Xvfb
+
 
 
 class Driver(object):
     def __init__(self):
-
-        try:
-            from xvfbwrapper import Xvfb
-            self.headless_availability = True
-        except ImportError as e:
-            self.headless_availability = False
-            print("Headless testing not available.")
-
         # Set up Telegram Message Client
         self.mailer = Mailer()
 
         # Set up virtual display
-        try:
-            if self.headless_availability:
-                self.display = Xvfb()
-                self.display.start()
-        except OSError:
-            self.headless_availability = False
+        if Config.headless_is_available:
+            self.display = Xvfb()
+            self.display.start()
 
         # Load history
         try:
@@ -52,11 +44,29 @@ class Driver(object):
                 pickle.dump([],f)
 
 
-        self.username = input("Username: ")
-        self.password = input("Password: ")
+        try:
+            with open("log/instagram_username.pickle","rb") as f:
+                self.username = pickle.load(f)
+        except:
+            key = input("Please enter your username: ")
+            while len(key) == 0:
+                key = input("You must enter a username. Please try again: ")
+            with open("log/instagram_username.pickle","wb") as f:
+                pickle.dump(key,f)
+            self.username = key
+        try:
+            with open("log/instagram_pass.pickle","rb") as f:
+                self.password = pickle.load(f)
+        except:
+            key = input("Please enter your password: ")
+            while len(key) == 0:
+                key = input("You must enter a password. Please try again: ")
+            with open("log/instagram_pass.pickle","wb") as f:
+                pickle.dump(key,f)
+            self.password = key
 
         # Final setup
-        if self.headless_availability:
+        if Config.headless_is_available:
             self.browser = webdriver.PhantomJS()
         else:
             self.browser = webdriver.Chrome()
@@ -248,11 +258,11 @@ class Driver(object):
             follow.click()
             self.mailer.send("Followed: "+self.author()+"\n")
             print("Followed: "+self.author())
-            with open("log/followed_users.txt", "wb") as userfile:
+            with open("log/followed_users.pickle", "wb") as userfile:
                 pickle.dump(self.accounts_to_unfollow, userfile)
             self.accounts_to_unfollow.append(self.author())
             self.followed_accounts.update({self.author():self.timestamp()})
-            with open("log/followed_users_all_time.txt", "wb") as userfile:
+            with open("log/followed_users_all_time.pickle", "wb") as userfile:
                 pickle.dump(self.followed_accounts, userfile)
             sleep(Config.delay + randint(0,10))
         except:

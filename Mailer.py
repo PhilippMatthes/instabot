@@ -20,9 +20,20 @@ class Mailer:
                 pickle.dump(key,f)
             self.key = key
 
+        try:
+            with open("log/telepot_user_number.pickle","rb") as f:
+                self.telepot_user_number = pickle.load(f)
+        except:
+            telepot_user_number = input("User key was not discovered. Please enter your Key: ")
+            while len(telepot_user_number) != 9:
+                telepot_user_number = input("The key you entered is no valid user key. Please try again: ")
+            with open("log/telepot_user_number.pickle","wb") as f:
+                pickle.dump(telepot_user_number,f)
+            self.telepot_user_number = telepot_user_number
+
     def send(self,text):
         self.bot = telepot.Bot(self.key)
-        self.bot.sendMessage(238370268,text)
+        self.bot.sendMessage(self.telepot_user_number,text)
 
     def get_current_message(self):
         try:

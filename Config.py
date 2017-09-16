@@ -3,6 +3,7 @@ class Config:
     topics = ["graphic","render","cartoon","daily","art","design","cinema4d","animation","cg","illustration"]
     delay = 35
     start_url = "https://www.instagram.com/accounts/login/"
+    headless_is_available = False
 
 
     # The following (xpath) classes need to be refreshed every now and then.
@@ -23,6 +24,7 @@ class Config:
     next_button_xpath = "//*[contains(@class, '_3a693 coreSpriteRightPaginationArrow')]"
     like_button_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartOpen')]"
     like_button_full_xpath = "//*[contains(@class, '_8scx2 coreSpriteHeartFull')]"
+
 
     # Available comments: the first {} is replaced with the username
     # the second is replaced with a smiley. Note that UTF-8 smileys are only
