@@ -1,6 +1,37 @@
 class Config:
 
-    topics = ["graphic","render","cartoon","daily","art","design","cinema4d","animation","cg","illustration"]
+    topics = [  "graphics",
+                "render",
+                "cartoon",
+                "daily",
+                "art",
+                "design",
+                "cinema4d",
+                "animation",
+                "cg",
+                "illustration",
+                "3d",
+                "corona",
+                "octane",
+                "rendering",
+                "sculpting",
+                "sculpture",
+                "interior",
+                "cgi",
+                "creative",
+                "inspiration",
+                "3dartist",
+                "instagood",
+                "photooftheday",
+                "illustrator",
+                "color",
+                "artistic",
+                "pixel",
+                "adobe",
+                "digitalart",
+                "photo",
+                "3dmodel",
+                "3dprinter"]
     delay = 35
     start_url = "https://www.instagram.com/accounts/login/"
     headless_is_available = True
