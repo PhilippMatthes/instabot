@@ -1,6 +1,8 @@
 # Instagram Python Bot
 
-This is my Instagram Bot. It is not programmed nor structured very well. I just quickly wrote this down. So please keep this in mind. The main purpose of this bot is to programmatically follow, like, comment and unfollow on Instagram. If you have the time, help me refactoring this sloppy peace of software.
+![Showcase](Logo.jpg?raw=true "DragTimer App")
+
+This is my Instagram Bot. It is neither programmed nor structured very well. I just quickly wrote this down. So please keep this in mind. The main purpose of this bot is to programmatically follow, like, comment and unfollow on Instagram. If you have the time, help me refactoring this sloppy peace of software.
 
 ## Getting Started
 
