@@ -229,7 +229,6 @@ class Driver(object):
             sleep(Config.delay)
             self.search(topic)
             self.select_first()
-            self.skip_recommended()
             self.like(topic)
             return
 

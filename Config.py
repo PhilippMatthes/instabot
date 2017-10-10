@@ -3,7 +3,7 @@ class Config:
     topics = ["graphic","render","cartoon","daily","art","design","cinema4d","animation","cg","illustration"]
     delay = 35
     start_url = "https://www.instagram.com/accounts/login/"
-    headless_is_available = False
+    headless_is_available = True
 
 
     # The following (xpath) classes need to be refreshed every now and then.
