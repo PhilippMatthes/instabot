@@ -33,7 +33,7 @@ def loop():
         else:
             if (message == "Stop" or message == "Exit"):
                 mailer.send("Instagram Bot will exit now.")
-                break
+                raise Exception
             sleep(1)
 
 def run():
