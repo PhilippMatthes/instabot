@@ -29,6 +29,29 @@ class Driver(object):
 
         # Load history
         try:
+            with open("log/interacting_users.pickle","rb") as f:
+                self.interacting_users = pickle.load(f)
+        except:
+            with open("log/interacting_users.pickle","wb") as f:
+                self.interacting_users = []
+                pickle.dump([],f)
+        try:
+            with open("log/hashtags.pickle","rb") as f:
+                self.hashtags = pickle.load(f)
+        except:
+            with open("log/hashtags.pickle","wb") as f:
+                self.hashtags = {}
+                for h in Config.topics:
+                    self.hashtags[h] = 5
+                pickle.dump(self.hashtags,f)
+        try:
+            with open("log/actionList.pickle","rb") as f:
+                self.actionList = pickle.load(f)
+        except:
+            with open("log/actionList.pickle","wb") as f:
+                self.actionList = {}
+                pickle.dump({},f)
+        try:
             with open("log/followed_users_all_time.pickle","rb") as f:
                 self.followed_accounts = pickle.load(f)
         except:
@@ -120,7 +143,7 @@ class Driver(object):
             return
 
     # Comments on a picture
-    def comment(self):
+    def comment(self, topic):
         sleep(3)
         query = Config.comments[randint(0,len(Config.comments)-1)]
         say = query.format(self.author(),Config.smileys[randint(0,len(Config.smileys)-1)])
@@ -130,6 +153,18 @@ class Driver(object):
             comment_field.send_keys(Keys.RETURN)
             self.mailer.send("Commented on "+str(self.author())+"s picture with: "+say+"\n")
             print("Commented on "+str(self.author())+"s picture with: "+say)
+
+            if self.author() not in self.actionList.keys():
+                value = {"type":"comment","time":self.timestamp(),"topic":topic}
+                self.actionList[self.author()] = [value]
+            else:
+                value = {"type":"comment","time":self.timestamp(),"topic":topic}
+                authorActions = self.actionList[self.author()]
+                authorActions.append(value)
+                self.actionList[self.author()] = authorActions
+            with open("log/actionList.pickle", "wb") as userfile:
+                pickle.dump(self.actionList, userfile)
+
             sleep(1)
         except KeyboardInterrupt:
             return
@@ -160,9 +195,15 @@ class Driver(object):
     def select_first(self):
         try:
             pictures = self.browser.find_elements_by_xpath(Config.first_ele_xpath)
-            first_picture = pictures[9]
+            print("Found "+str(len(pictures))+" pictures.")
+            first_picture = None
+            if (Config.headless_is_available):
+                first_picture = pictures[9]
+            else:
+                first_picture = pictures[0]
             self.focus(first_picture)
             first_picture.click()
+            sleep(1)
             return True
         except KeyboardInterrupt:
             return
@@ -218,6 +259,18 @@ class Driver(object):
         try:
             self.mailer.send("Liked picture/video by: "+self.author()+".\n")
             print("Liked picture/video by: "+self.author()+".")
+
+            if self.author() not in self.actionList.keys():
+                value = {"type":"like","time":self.timestamp(),"topic":topic}
+                self.actionList[self.author()] = [value]
+            else:
+                value = {"type":"like","time":self.timestamp(),"topic":topic}
+                authorActions = self.actionList[self.author()]
+                authorActions.append(value)
+                self.actionList[self.author()] = authorActions
+            with open("log/actionList.pickle", "wb") as userfile:
+                pickle.dump(self.actionList, userfile)
+
             like_button = self.browser.find_element_by_xpath(Config.like_button_xpath)
             like_button.click()
             sneaksleep = randint(0,10) + Config.delay
@@ -250,7 +303,7 @@ class Driver(object):
             sleep(1)
 
     # Follows a user
-    def follow(self):
+    def follow(self, topic):
         sleep(3)
         try:
             follow = self.browser.find_element_by_xpath(Config.follow_xpath)
@@ -259,6 +312,19 @@ class Driver(object):
             print("Followed: "+self.author())
             with open("log/followed_users.pickle", "wb") as userfile:
                 pickle.dump(self.accounts_to_unfollow, userfile)
+
+            if self.author() not in self.actionList.keys():
+                value = {"type":"follow","time":self.timestamp(),"topic":topic}
+                self.actionList[self.author()] = [value]
+            else:
+                value = {"type":"follow","time":self.timestamp(),"topic":topic}
+                authorActions = self.actionList[self.author()]
+                authorActions.append(value)
+                self.actionList[self.author()] = authorActions
+            with open("log/actionList.pickle", "wb") as userfile:
+                pickle.dump(self.actionList, userfile)
+
+
             self.accounts_to_unfollow.append(self.author())
             self.followed_accounts.update({self.author():self.timestamp()})
             with open("log/followed_users_all_time.pickle", "wb") as userfile:
@@ -269,29 +335,95 @@ class Driver(object):
             print("Follow button not found.")
             sleep(1)
 
+    def open_unfollow_screen(self):
+        self.browser.get(Config.account_url)
+        sleep(2)
+        heart = self.browser.find_element_by_xpath(Config.following_xpath)
+        heart.click()
+        sleep(2)
+
+    def check_follows(self):
+        try:
+            sections = self.browser.find_elements_by_xpath(Config.sections_xpath)
+            print(str(len(sections))+" Sections found.")
+        except:
+            print("Sections not found.")
+            return
+        users = []
+        for element in sections:
+            profile = element.find_element_by_xpath(Config.local_name_xpath)
+            name = profile.get_attribute("title")
+            users.append(name)
+        for user in users:
+            if user not in self.interacting_users:
+                if user not in self.actionList.keys():
+                    self.mailer.send("New interaction discovered with: "+user+", but we have no further information.")
+                    sleep(1)
+                else:
+                    actions = self.actionList[user]
+                    self.mailer.send("New interaction discovered with: "+user+", and we have logged our interactions on him:")
+                    sleep(1)
+                    string = ""
+                    for action in actions:
+                        string += "Type: "+action["type"]+", Time: "+action["time"]+", Topic: "+action["topic"]+" ... "
+                        self.hashtags[action["topic"]] += 1
+                    self.mailer.send(string)
+                    sleep(1)
+                self.interacting_users.append(user)
+                with open("log/interacting_users.pickle", "wb") as userfile:
+                    pickle.dump(self.interacting_users, userfile)
+        return
+
+    def store_hashtags(self):
+        try:
+            sections = self.browser.find_elements_by_xpath(Config.hashtags_xpath)
+            for section in sections:
+                all_hashtags = self.extract_hash_tags(section.text)
+                for h in all_hashtags:
+                    if h in self.hashtags:
+                        self.hashtags[h] = self.hashtags[h] + 0.01
+                    else:
+                        self.hashtags[h] = 0.01
+            with open("log/hashtags.pickle","wb") as f:
+                pickle.dump(self.hashtags,f)
+        except:
+            pass
+
+    def extract_hash_tags(self, s):
+        return set(part[1:] for part in s.split() if part.startswith('#'))
+
     # Coordinates every function in an endless loop
     def like_follow_loop(self):
         self.login()
         while True:
-            for topic_selector in range(len(Config.topics)-1):
+            self.open_unfollow_screen()
+            self.check_follows()
+
+            top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:15]
+            print("Top 15 hashtags: ",top_hashtags)
+            self.mailer.send("Top 15 hashtags: "+str(top_hashtags))
+            sleep(1)
+
+            for topic_selector in range(len(top_hashtags)-1):
                 if (self.mailer.get_current_message() == "Exit" or self.mailer.get_current_message() == "Pause" or self.mailer.get_current_message() == "Stop"):
                     raise Exception('Breaking out of inner loop')
-                # Config.open_unfollow_screen()
-                # Config.unfollow_via_unfollow_screen()
-                self.search(Config.topics[topic_selector])
+                self.search(top_hashtags[topic_selector])
+                print("Selecting first picture.")
                 self.select_first()
-                if (topic_selector % 7 == 0):
+                if (topic_selector % 7 == 2):
                     if (self.mailer.get_current_message() == "Exit" or self.mailer.get_current_message() == "Pause" or self.mailer.get_current_message() == "Stop"):
                         raise Exception('Breaking out of inner loop')
                     if not self.error():
-                        self.comment()
+                        self.comment(top_hashtags[topic_selector])
+                        self.store_hashtags()
                         self.next_picture()
                 for likes in range(3):
                     sleep(1)
                     if (self.mailer.get_current_message() == "Exit" or self.mailer.get_current_message() == "Pause" or self.mailer.get_current_message() == "Stop"):
                         raise Exception('Breaking out of inner loop')
                     if not self.error():
-                        self.like(Config.topics[topic_selector])
+                        self.like(top_hashtags[topic_selector])
+                        self.store_hashtags()
                         self.next_picture()
                 for follows in range(3):
                     sleep(1)
@@ -309,7 +441,8 @@ class Driver(object):
                             self.next_picture()
                             count = count + 1
                             sleep(1)
-                        self.follow()
+                        self.follow(top_hashtags[topic_selector])
+                        self.store_hashtags()
                 self.mailer.send("Accounts to unfollow: " + str(len(self.accounts_to_unfollow)))
                 print("Accounts to unfollow: " + str(len(self.accounts_to_unfollow)))
                 if len(self.accounts_to_unfollow) > 50:

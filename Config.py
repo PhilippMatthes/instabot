@@ -14,38 +14,26 @@ class Config:
                 "corona",
                 "octane",
                 "rendering",
-                "sculpting",
-                "sculpture",
-                "interior",
-                "cgi",
-                "creative",
-                "inspiration",
-                "3dartist",
-                "instagood",
-                "photooftheday",
-                "illustrator",
-                "color",
-                "artistic",
-                "pixel",
-                "adobe",
-                "digitalart",
-                "photo",
-                "3dmodel",
-                "3dprinter"]
+                "sculpting"]
     delay = 35
     start_url = "https://www.instagram.com/accounts/login/"
+    following_link = "https://www.instagram.com/snrmtths/following/"
+    account_url = "https://www.instagram.com/snrmtths/"
     headless_is_available = True
 
 
     # The following (xpath) classes need to be refreshed every now and then.
-    # they define, where elements are located on Instagram. Sometimes,
-    # classes are Changed (eg. "coreSpriteHeartOpen" to "coreSpriteLikeHeartOpen")
-    # this results in vast amount of errors and needs to be corrected.
+    # they define, where elements are located on Instagram.
+
+    sections_xpath = "//*[contains(@class, '_75ljm _3qhgf')]"
+    local_name_xpath = ".//a[@class='_2g7d5 notranslate _nodr2']"
+    local_follow_xpath = "//a[@class='_ov9ai']"
+
+    hashtags_xpath = "//*[contains(@class, '_ezgzd')]"
+    # local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
+
     first_ele_xpath = "//*[contains(@class, '_si7dy')]"
-    sections_xpath = "//*[contains(@class, '_6jvgy')]"
-    local_name_xpath = ".//a[@class='_4zhc5 notranslate _j7lfh']"
-    local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
-    following_xpath = "//*[contains(@class, '_s53mj')]"
+    following_xpath = "//*[contains(@class, '_ohbcb _gvoze coreSpriteDesktopNavActivity')]"
     follow_xpath = "//*[contains(@class, '_qv64e _gexxb _4tgw8 _njrw0')]"
     unfollow_xpath = "//*[contains(@class, '_qv64e _t78yp _r9b8f _njrw0')]"
     comment_xpath = "//*[contains(@class, '_bilrf')]"
