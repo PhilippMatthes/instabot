@@ -399,11 +399,16 @@ class Driver(object):
             self.open_unfollow_screen()
             self.check_follows()
 
-            top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:15]
+            top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:20]
             top_hashtags_values = []
             for hashtag in top_hashtags:
                 top_hashtags_values.append(self.hashtags[hashtag])
-            self.mailer.send_stats(top_hashtags_values,top_hashtags)
+            self.mailer.send_stats(top_hashtags_values,top_hashtags,caption="Top 20 hashtags")
+            low_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[-20:]
+            low_hashtags_values = []
+            for hashtag in low_hashtags:
+                low_hashtags_values.append(self.hashtags[hashtag])
+            self.mailer.send_stats(low_hashtags_values,low_hashtags,caption="All other hashtags")
             sleep(1)
 
             for topic_selector in range(len(top_hashtags)-1):
