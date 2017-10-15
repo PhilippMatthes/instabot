@@ -36,12 +36,12 @@ class Mailer:
         self.bot = telepot.Bot(self.key)
         self.bot.sendMessage(self.telepot_user_number,text)
 
-    def send_image(self,image):
+    def send_image(self,image,caption):
         self.bot = telepot.Bot(self.key)
         with open(image, 'rb') as f:
-            self.bot.sendPhoto(self.telepot_user_number,f)
+            self.bot.sendPhoto(self.telepot_user_number,f,caption)
 
-    def send_stats(self,numbers,hashtags):
+    def send_stats(self,numbers,hashtags,caption):
         if len(numbers) != len(hashtags):
             raise Exception("Number length doesnt equal hashtags length")
         fig = plt.figure()
@@ -50,9 +50,10 @@ class Mailer:
         labels = hashtags
         plt.plot(x,y, 'r')
         plt.xticks(x, labels, rotation='vertical')
+        plt.margins(0.2)
         image = "log/stats.png"
         fig.savefig(image)
-        self.send_image(image)
+        self.send_image(image,caption)
 
     def get_current_message(self):
         try:
