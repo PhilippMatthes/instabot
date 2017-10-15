@@ -404,7 +404,7 @@ class Driver(object):
             for hashtag in top_hashtags:
                 top_hashtags_values.append(self.hashtags[hashtag])
             self.mailer.send_stats(top_hashtags_values,top_hashtags,caption="Top 20 hashtags")
-            low_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[-20:]
+            low_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[20:]
             low_hashtags_values = []
             for hashtag in low_hashtags:
                 low_hashtags_values.append(self.hashtags[hashtag])
