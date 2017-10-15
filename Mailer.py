@@ -45,11 +45,12 @@ class Mailer:
         if len(numbers) != len(hashtags):
             raise Exception("Number length doesnt equal hashtags length")
         fig = plt.figure()
+        ax = fig().add_subplot(111)
         x = hashtags
         y = range(0,len(hashtags))
         labels = hashtags
         plt.plot(x,y, 'r')
-        plt.xticks(x, labels, rotation='vertical')
+        ax.set_xticklabels(labels)
         image = "log/stats.png"
         fig.savefig(image)
         self.mailer.send_image(image)
