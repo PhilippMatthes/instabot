@@ -53,7 +53,7 @@ class Mailer:
         ax.set_xticklabels(labels)
         image = "log/stats.png"
         fig.savefig(image)
-        self.mailer.send_image(image)
+        self.send_image(image)
 
     def get_current_message(self):
         try:
