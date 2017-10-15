@@ -46,7 +46,7 @@ class Mailer:
             raise Exception("Number length doesnt equal hashtags length")
         fig = plt.figure()
         x = hashtags
-        y = range(0,len(hashtags)-1)
+        y = range(0,len(hashtags))
         labels = hashtags
         plt.plot(x,y, 'r')
         plt.xticks(x, labels, rotation='vertical')
