@@ -42,7 +42,7 @@ class Driver(object):
             with open("log/hashtags.pickle","wb") as f:
                 self.hashtags = {}
                 for h in Config.topics:
-                    self.hashtags[h] = 5
+                    self.hashtags[h] = 2
                 pickle.dump(self.hashtags,f)
         try:
             with open("log/actionList.pickle","rb") as f:
@@ -400,8 +400,10 @@ class Driver(object):
             self.check_follows()
 
             top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:15]
-            print("Top 15 hashtags: ",top_hashtags)
-            self.mailer.send("Top 15 hashtags: "+str(top_hashtags))
+            top_hashtags_values = []
+            for hashtag in top_hashtags:
+                top_hashtags_values.append(self.hashtags[hashtag])
+            self.mailer.send_stats(top_hashtags_values,top_hashtags)
             sleep(1)
 
             for topic_selector in range(len(top_hashtags)-1):
