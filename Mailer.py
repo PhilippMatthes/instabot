@@ -45,7 +45,7 @@ class Mailer:
         if len(numbers) != len(hashtags):
             raise Exception("Number length doesnt equal hashtags length")
         fig = plt.figure()
-        ax = fig().add_subplot(111)
+        ax = fig.add_subplot(111)
         x = hashtags
         y = range(0,len(hashtags))
         labels = hashtags
