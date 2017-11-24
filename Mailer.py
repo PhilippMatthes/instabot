@@ -2,6 +2,7 @@ import telepot
 import telepot.api
 import urllib3
 import pickle
+import matplotlib.pyplot as plt
 
 telepot.api._pools = {
     'default': urllib3.PoolManager(num_pools=3, maxsize=10, retries=10, timeout=240),
@@ -34,6 +35,25 @@ class Mailer:
     def send(self,text):
         self.bot = telepot.Bot(self.key)
         self.bot.sendMessage(self.telepot_user_number,text)
+
+    def send_image(self,image,caption):
+        self.bot = telepot.Bot(self.key)
+        with open(image, 'rb') as f:
+            self.bot.sendPhoto(self.telepot_user_number,f,caption)
+
+    def send_stats(self,numbers,hashtags,caption):
+        if len(numbers) != len(hashtags):
+            raise Exception("Number length doesnt equal hashtags length")
+        fig = plt.figure()
+        x = range(0,len(hashtags))
+        y = numbers
+        labels = hashtags
+        plt.plot(x,y, 'r')
+        plt.xticks(x, labels, rotation='vertical')
+        plt.margins(0.2)
+        image = "log/stats.png"
+        fig.savefig(image)
+        self.send_image(image,caption)
 
     def get_current_message(self):
         try:

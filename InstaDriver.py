@@ -42,7 +42,7 @@ class Driver(object):
             with open("log/hashtags.pickle","wb") as f:
                 self.hashtags = {}
                 for h in Config.topics:
-                    self.hashtags[h] = 5
+                    self.hashtags[h] = 2
                 pickle.dump(self.hashtags,f)
         try:
             with open("log/actionList.pickle","rb") as f:
@@ -92,7 +92,7 @@ class Driver(object):
         if Config.headless_is_available:
             self.browser = webdriver.PhantomJS()
         else:
-            self.browser = webdriver.Chrome()
+            self.browser = webdriver.Chrome("./chromedriver")
         self.browser.set_window_size(1980,1080)
 
     # Returns nicely formatted timestamp
@@ -399,9 +399,16 @@ class Driver(object):
             self.open_unfollow_screen()
             self.check_follows()
 
-            top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:15]
-            print("Top 15 hashtags: ",top_hashtags)
-            self.mailer.send("Top 15 hashtags: "+str(top_hashtags))
+            top_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[:20]
+            top_hashtags_values = []
+            for hashtag in top_hashtags:
+                top_hashtags_values.append(self.hashtags[hashtag])
+            self.mailer.send_stats(top_hashtags_values,top_hashtags,caption="Top 20 hashtags")
+            low_hashtags = sorted(self.hashtags.keys(), key=lambda k: self.hashtags[k], reverse=True)[-20:]
+            low_hashtags_values = []
+            for hashtag in low_hashtags:
+                low_hashtags_values.append(self.hashtags[hashtag])
+            self.mailer.send_stats(low_hashtags_values,low_hashtags,caption="Low 20 hashtags")
             sleep(1)
 
             for topic_selector in range(len(top_hashtags)-1):
