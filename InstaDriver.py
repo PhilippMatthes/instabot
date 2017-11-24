@@ -92,7 +92,7 @@ class Driver(object):
         if Config.headless_is_available:
             self.browser = webdriver.PhantomJS()
         else:
-            self.browser = webdriver.Chrome()
+            self.browser = webdriver.Chrome("./chromedriver")
         self.browser.set_window_size(1980,1080)
 
     # Returns nicely formatted timestamp
