@@ -33,7 +33,7 @@ cd instabot
 ```
 Launch the bot and enter username and password as prompted.
 ```
-python3 Main.py
+sudo python3 Main.py
 ```
 The terminal window will clear. You now have to switch over to your Telegram bot and send him "Start". The bot will launch.
 
