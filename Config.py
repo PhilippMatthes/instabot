@@ -33,7 +33,7 @@ class Config:
     # local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
 
 
-    first_ele_xpath = "//*[contains(@class, '_70iju')]"
+    first_ele_xpath = "//*[contains(@class, '_mck9w _gvoze _f2mse')]"
 
     following_xpath = "//*[contains(@class, '_ohbcb _gvoze coreSpriteDesktopNavActivity')]"
     follow_xpath = "//*[contains(@class, '_qv64e _iokts _4tgw8 _njrw0')]"
