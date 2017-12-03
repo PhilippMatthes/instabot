@@ -14,6 +14,7 @@ from Config import Config
 
 if Config.headless_is_available:
     from xvfbwrapper import Xvfb
+    from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 dcap = dict(DesiredCapabilities.PHANTOMJS)
 dcap["phantomjs.page.settings.userAgent"] = \
