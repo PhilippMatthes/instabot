@@ -266,6 +266,13 @@ class Driver(object):
         except:
             return False
 
+    def on_post_page(self):
+        try:
+            full = self.browser.find_element_by_xpath(Config.next_button_xpath)
+            return False
+        except:
+            return True
+
     # Likes a picture
     def like(self, topic):
         count = 0
@@ -273,6 +280,10 @@ class Driver(object):
             self.mailer.send("Post already liked. Skipping.\n")
             print("Post already liked. Skipping.")
             self.next_picture()
+            if self.on_post_page():
+                self.browser.save_screenshot('error.png')
+                self.mailer.send_image('error.png','Accidently swapped to post page.')
+                return
             count = count + 1
             sleep(1)
         try:
