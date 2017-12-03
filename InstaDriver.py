@@ -200,8 +200,6 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
-            self.browser.save_screenshot('error.png')
-            self.mailer.send_image('error.png','Exception in self.error')
             return False
 
     # Selects the first picture in a loaded topic screen
@@ -262,10 +260,10 @@ class Driver(object):
     def already_liked(self):
         try:
             full = self.browser.find_element_by_xpath(Config.like_button_full_xpath)
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Image was already liked.')
             return True
         except:
-            self.browser.save_screenshot('error.png')
-            self.mailer.send_image('error.png','Exception in self.already_liked')
             return False
 
     # Likes a picture
