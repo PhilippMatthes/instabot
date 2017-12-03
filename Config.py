@@ -32,8 +32,8 @@ class Config:
     hashtags_xpath = "//*[contains(@class, '_ezgzd')]"
     # local_button_xpath = ".//*[@class='_ah57t _6y2ah _i46jh _rmr7s']"
 
-    first_ele_xpath = "//*[contains(@class, '_si7dy')]"
-    following_xpath = "//*[contains(@class, '_ohbcb _gvoze coreSpriteDesktopNavActivity _3pzlm')]"
+    first_ele_xpath = "//*[contains(@class, '_70iju')]"
+    following_xpath = "//*[contains(@class, '_ohbcb _gvoze coreSpriteDesktopNavActivity')]"
     follow_xpath = "//*[contains(@class, '_qv64e _iokts _4tgw8 _njrw0')]"
     unfollow_xpath = "//*[contains(@class, '_qv64e _t78yp _r9b8f _njrw0')]"
     comment_xpath = "//*[contains(@class, '_bilrf')]"

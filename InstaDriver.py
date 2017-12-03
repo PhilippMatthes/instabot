@@ -197,10 +197,10 @@ class Driver(object):
             pictures = self.browser.find_elements_by_xpath(Config.first_ele_xpath)
             print("Found "+str(len(pictures))+" pictures.")
             first_picture = None
-            if (Config.headless_is_available):
+            if len(pictures) > 9:
                 first_picture = pictures[9]
             else:
-                first_picture = pictures[0]
+                first_picture = pictures[len(pictures)-1]
             self.focus(first_picture)
             first_picture.click()
             sleep(1)
