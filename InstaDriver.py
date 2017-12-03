@@ -95,7 +95,7 @@ class Driver(object):
         # Final setup
         if Config.headless_is_available:
             # self.browser = webdriver.PhantomJS(desired_capabilities=dcap)
-            self.browser = webdriver.PhantomJS(desired_capabilities=dcap)
+            self.browser = webdriver.PhantomJS()
 
         else:
             self.browser = webdriver.Chrome("./chromedriver")
