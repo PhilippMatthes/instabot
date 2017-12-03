@@ -15,6 +15,9 @@ from Config import Config
 if Config.headless_is_available:
     from xvfbwrapper import Xvfb
 
+dcap = dict(DesiredCapabilities.PHANTOMJS)
+dcap["phantomjs.page.settings.userAgent"] = \
+    ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36")
 
 
 class Driver(object):
@@ -90,7 +93,7 @@ class Driver(object):
 
         # Final setup
         if Config.headless_is_available:
-            self.browser = webdriver.PhantomJS()
+            self.browser = webdriver.PhantomJS(desired_capabilities=dcap)
         else:
             self.browser = webdriver.Chrome("./chromedriver")
         self.browser.set_window_size(1980,1080)
