@@ -15,10 +15,10 @@ from Config import Config
 if Config.headless_is_available:
     from xvfbwrapper import Xvfb
     from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+    dcap = dict(DesiredCapabilities.PHANTOMJS)
+    dcap["phantomjs.page.settings.userAgent"] = \
+        ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36")
 
-dcap = dict(DesiredCapabilities.PHANTOMJS)
-dcap["phantomjs.page.settings.userAgent"] = \
-    ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36")
 
 
 class Driver(object):
@@ -142,6 +142,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.login')
             sleep(1)
             self.login()
             return
@@ -173,6 +175,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.comment')
             self.mailer.send("Comment field not found.\n")
             print("Comment field not found.")
 
@@ -187,12 +191,15 @@ class Driver(object):
     def error(self):
         try:
             error_message = self.browser.find_element_by_xpath(Config.error_xpath)
-            self.mailer.send("Page loading error.")
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Page loading error')
             print("Page loading error.")
             return True
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.error')
             return False
 
     # Selects the first picture in a loaded topic screen
@@ -212,6 +219,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.select_first')
             sleep(5)
             return False
 
@@ -225,6 +234,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.next_picture')
             self.browser.get(self.browser.current_url)
             sleep(1)
             if not self.error():
@@ -239,6 +250,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.author')
             self.mailer.send("Author xpath not found.\n")
             print("Author xpath not found.")
             return ""
@@ -249,6 +262,8 @@ class Driver(object):
             full = self.browser.find_element_by_xpath(Config.like_button_full_xpath)
             return True
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.already_liked')
             return False
 
     # Likes a picture
@@ -283,6 +298,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.like')
             sleep(Config.delay)
             self.search(topic)
             self.select_first()
@@ -302,6 +319,8 @@ class Driver(object):
         except KeyboardInterrupt:
             return
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.unfollow')
             self.mailer.send("Unfollow button not found.\n")
             print("Unfollow button not found.")
             sleep(1)
@@ -335,6 +354,8 @@ class Driver(object):
                 pickle.dump(self.followed_accounts, userfile)
             sleep(Config.delay + randint(0,10))
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.follow')
             self.mailer.send("Follow button not found.\n")
             print("Follow button not found.")
             sleep(1)
@@ -391,6 +412,8 @@ class Driver(object):
             with open("log/hashtags.pickle","wb") as f:
                 pickle.dump(self.hashtags,f)
         except:
+            self.browser.save_screenshot('error.png')
+            self.mailer.send_image('error.png','Exception in self.store_hashtags')
             pass
 
     def extract_hash_tags(self, s):
