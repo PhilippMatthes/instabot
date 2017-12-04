@@ -236,11 +236,10 @@ class Driver(object):
         except:
             self.browser.save_screenshot('error.png')
             self.mailer.send_image('error.png','Exception in self.next_picture')
-            self.browser.get(self.browser.current_url)
+            self.browser.execute_script("window.history.go(-1)")
+            sleep(5)
+            self.select_first()
             sleep(1)
-            if not self.error():
-                self.select_first()
-            return
 
     # Loads the authors name
     def author(self):
